@@ -1,27 +1,35 @@
 <template>
   <div
+    ref="board"
     :style="{
       width: boardWidthAndHeight + 'px',
       height: boardWidthAndHeight + 'px',
     }"
     class="canvas"
   >
-    Canvas test <br />
-    Test of cell size: {{ cellSize }} <br />
-    Test of board size: {{ boardSize }} <br />
-    Test of speed: {{ speed }} <br />
-    Test of board width {{ boardWidth }}
+  Tutaj test: {{isPlaying}} 
   </div>
 </template>
 
 <script>
 export default {
-  props: ["cellSize", "boardSize", "speed"],
-
+  props: ["cellSize", "boardSize", "speed", "isPlaying",],
   computed: {
     boardWidthAndHeight() {
       return this.boardSize * this.cellSize;
     },
+  },
+    data: function () {
+    return {
+ boardContext: null
+    };
+  },
+
+  methods: {
+       draw () {
+   console.log('drawing')
+  }
+  
   },
 };
 </script>
@@ -34,3 +42,6 @@ export default {
   margin-top: 2em;
 }
 </style>
+
+
+
