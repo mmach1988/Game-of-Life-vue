@@ -31,7 +31,7 @@ export default {
     return {
       score: 0,
       cellSize: 10,
-      boardSize: 20,
+      boardSize: 30,
       speed: 10,
       isPlaying: false,
     };
@@ -43,6 +43,7 @@ this.isPlaying = !this.isPlaying
   },
   components: { SnakeCanvas },
 };
+
 </script>
 
 <style>
@@ -59,6 +60,7 @@ input {
 }
 .container {
   width: 50em;
+  border: 1px green solid;
   margin: auto;
   display: grid;
   grid-template-columns: 33.33% 33.33% 33.33%;
