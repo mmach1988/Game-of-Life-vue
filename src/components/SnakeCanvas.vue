@@ -1,17 +1,16 @@
 <template>
   <canvas
     ref="board"
-    :width="boardSizePx" :height="boardSizePx"
+    :width="boardSizePx"
+    :height="boardSizePx"
     class="canvas"
     @click="move"
   >
-    Tutaj test: {{ directions[0].direction  }}
   </canvas>
 </template>
 
 <script>
-
-import directions from "./constants";
+import constants from "./Constants";
 
 export default {
   props: [
@@ -23,7 +22,7 @@ export default {
   computed: {
     boardSizePx() {
       return (
-      this.boardSize * this.cellSize
+        this.boardSize * this.cellSize
       );
     },
   },
@@ -48,21 +47,42 @@ export default {
     },
   },
   methods: {
-    drawCell({x, y}) {
+    drawCell({ x, y }) {
       this.boardContext.rect(
-      x * this.cellSize,
-      y * this.cellSize,
-      this.cellSize,
-      this.cellSize
+        x * this.cellSize,
+        y * this.cellSize,
+        this.cellSize,
+        this.cellSize
       );
       this.boardContext.fillStyle =
         "black";
       this.boardContext.fill();
     },
     move() {
-      console.log("move");
-      this.drawCell(this.snake[0]);
-      console.log(directions[0])
+      this.clear(),
+        console.log(
+          "move, snake: " +
+            this.snake.length
+        );
+      const newHeadCell = {
+        x: this.snake[0].x + // odpowiedni x z tablicy constans (right)
+        y: this.snake[0].y, // odpowiedni y z tablicy constans (right)
+      };
+      this.snake.unshift(newHeadCell);
+      this.snake.pop();
+      this.boardContext.beginPath();
+      this.snake.forEach(this.drawCell);
+      this.boardContext.closePath();
+
+      setTimeout(this.move, 1000);
+    },
+    clear() {
+      this.boardContext.clearRect(
+        0,
+        0,
+        this.boardSizePx,
+        this.boardSizePx
+      );
     },
     getMiddleCell() {
       return Math.round(
@@ -76,8 +96,11 @@ export default {
           y: this.getMiddleCell(),
         },
       ];
-      // const randomDirectionIndex = Math.floor(Math.random() * 4);
-      // this.direction = constants[randomDirectionIndex];
+      const randomDirectionIndex = Math.floor(
+        Math.random() * 4
+      );
+      this.direction =
+        constants[randomDirectionIndex];
       // this.targetCell = null;
     },
   },
