@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <snake-canvas :cellSize="cellSize" :boardSize="boardSize" :speed="speed" :isPlaying="isPlaying" />
+    <snake-canvas :cellSize="cellSize" :boardSize="boardSize" :speed="speed" :isPlaying="isPlaying" :stopGame="stopGame" />
     <div class="margin-top">Score: {{ score }}</div>
     <div class="margin-top"><button @click="startGame">Play</button></div>
 
@@ -38,7 +38,10 @@ export default {
   },
   methods: {
 startGame() {
-this.isPlaying = !this.isPlaying
+this.isPlaying = true
+},
+stopGame() {
+this.isPlaying = false
 }
   },
   components: { SnakeCanvas },
