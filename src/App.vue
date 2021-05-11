@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <h1>Snake game</h1>
-
+    <h1 >Snake game</h1>
     <div class="container">
       <div class="input-div">
         Cell size (px): <input v-model="cellSize" type="number" />
@@ -14,7 +13,7 @@
       </div>
     </div>
 
-    <snake-canvas :cellSize="cellSize" :boardSize="boardSize" :speed="speed" :isPlaying="isPlaying" :stopGame="stopGame" />
+    <snake-canvas :cellSize="cellSize" :boardSize="boardSize" :speed="speed" :isPlaying="isPlaying" :stopGame="stopGame" :addScore="addScore" />
     <div class="margin-top">Score: {{ score }}</div>
     <div class="margin-top"><button @click="startGame">Play</button></div>
 
@@ -31,7 +30,7 @@ export default {
     return {
       score: 0,
       cellSize: 10,
-      boardSize: 30,
+      boardSize: 10,
       speed: 10,
       isPlaying: false,
     };
@@ -42,6 +41,9 @@ this.isPlaying = true
 },
 stopGame() {
 this.isPlaying = false
+},
+addScore(points) {
+    this.score = this.score + points
 }
   },
   components: { SnakeCanvas },

@@ -18,6 +18,7 @@ export default {
     "speed",
     "isPlaying",
     "stopGame",
+    "addScore",
   ],
   computed: {
     boardSizePx() {
@@ -81,7 +82,6 @@ export default {
       this.boardContext.fill();
     },
     move() {
-
     if(this.isPlaying)   {
       let newHeadCell = {
       x: this.snake[0].x + this.direction.move.x,
@@ -95,6 +95,7 @@ export default {
        this.createFood()
       if(this.isFoodNewHead(newHeadCell)) {
         this.snake.unshift(this.newFood)
+        this.addScore(10)
         this.move()
         this.newFood = false
         this.createFood()
@@ -127,12 +128,30 @@ export default {
       );
     },
     resetSnake() {
-      this.snake = [
-        {
-          x: this.getMiddleCell(),
-          y: this.getMiddleCell(),
-        },
-      ];
+      // this.snake = [
+      //   {
+      //     x: this.getMiddleCell(),
+      //     y: this.getMiddleCell(),
+      //   },
+      // ];
+         this.snake = [
+         { x: 2, y: 2},
+         { x: 3, y: 2},
+         { x: 4, y: 2},
+         { x: 5, y: 2},
+         { x: 6, y: 2},
+         { x: 7, y: 2},
+         { x: 8, y: 2},
+         { x: 8, y: 3},
+         { x: 7, y: 3},
+         { x: 6, y: 3},
+         { x: 5, y: 3},
+         { x: 4, y: 3},
+         { x: 3, y: 3},
+         { x: 2, y: 3},
+         
+         
+          ];
       const randomDirectionIndex = Math.floor(
         Math.random() * 4
       );
@@ -166,9 +185,18 @@ export default {
   createFood() {
   // NA POTEM - SPRAWDZIMY, CZY TO NIE JEST W WĘŹU
   if(!this.newFood) {
-  this.newFood = this.getRandomCell()
-  this.drawCell(this.newFood, 'red');
-  this.boardContext.closePath();  
+  let tempFood = this.getRandomCell()
+  if(this.snake.filter((cell) => cell.x === tempFood.x && cell.y === tempFood.y).length > 0) {
+    // UWAGA MOZE ZAWIESIĆ GRĘ PO KONIEC
+    this.createFood()
+  }
+  else {
+    this.newFood = tempFood
+    this.boardContext.beginPath();
+    this.drawCell(this.newFood, 'red');
+    this.boardContext.closePath(); 
+  }
+ 
   }
   
 },
