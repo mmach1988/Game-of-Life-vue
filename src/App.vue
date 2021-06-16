@@ -11,6 +11,13 @@
       <div class="input-div">
         Speed: <input v-model="speed" type="number" />
       </div>
+            <div class="input-div">
+      Tryb gry:
+      <br />
+      <!-- 1. Rysowanie (moliwość zapisania, mozliwosc wczytywania zapisanych konfiguracji)
+      2. Symulacja (mzliwość play/ pause)
+      3. Czyszczenie -->
+      </div>
     </div>
 
     <snake-canvas
@@ -112,7 +119,7 @@ export default {
   margin-top: 60px;
 }
 input {
-  width: 13%;
+  width: 18%;
 }
 
 .game-over {
@@ -131,7 +138,7 @@ input {
   width: 50em;
   margin: auto;
   display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-columns: 25% 25% 25% 25% ;
   justify-items: center;
   grid-template-rows: 2em;
 }
@@ -142,6 +149,6 @@ input {
   background-color: rgb(177, 176, 176);
   line-height: 2em;
   text-align: center;
-  width: 80%;
+  width: 90%;
 }
 </style>
