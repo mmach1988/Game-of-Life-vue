@@ -1,11 +1,14 @@
 <template>
-  <canvas
+  <div>
+    <canvas
     ref="board"
     :width="boardSizePx"
     :height="boardSizePx"
     class="canvas"
   >
   </canvas>
+  </div>
+
 </template>
 
 <script>
@@ -19,11 +22,20 @@ export default {
     "isPlaying",
     "stopGame",
     "addScore",
+    "isGameOver",
+    "gameOver",
+    "startGame"
   ],
   computed: {
     boardSizePx() {
       return (
         this.boardSize * this.cellSize
+      );
+    },
+    timeOut() {
+      return (
+        // + speed powinno zmniejszac timeOut
+       1000 / this.speed 
       );
     },
   },
@@ -48,28 +60,28 @@ export default {
   },
   watch: {
     cellSize: function() {
-      // console.log(
-      //   "Cell size changed !!!!"
-      // );
       this.resetSnake()
     },
     boardSize: function() {
-      // console.log(
-      //   "Board size changed !!!!"
-      // );
       this.resetSnake()
     },
-
+    isGameOver: function() {
+      if(!this.isGameOver) {
+      this.snake.forEach(this.clear)
+      this.clear(this.newFood)
+      this.newFood = false;
+      this.resetSnake()
+      this.move()
+      }
+    }
   },
   methods: {
-
     onKeyPress(event) {
   const newDirection = constants.find(direction => direction.keyCode === event.keyCode)
    if(Math.abs(this.direction.move.x - newDirection.move.x) < 2 && Math.abs(this.direction.move.y - newDirection.move.y) < 2) {
      this.direction = newDirection
    }
     },
-
     drawCell({ x, y }, color) {
       this.boardContext.rect(
         x * this.cellSize,
@@ -82,16 +94,18 @@ export default {
       this.boardContext.fill();
     },
     move() {
-    if(this.isPlaying)   {
+    if(this.isPlaying) {
       let newHeadCell = {
       x: this.snake[0].x + this.direction.move.x,
       y: this.snake[0].y + this.direction.move.y, 
       }
-   
     if(this.isCellOutOfBoard(newHeadCell)){
         this.stopGame()
+        this.gameOver()
         return;
       }
+      this.isNewHeadInSnake(newHeadCell)
+      // this.snake.filter(cell  => )
        this.createFood()
       if(this.isFoodNewHead(newHeadCell)) {
         this.snake.unshift(this.newFood)
@@ -109,10 +123,17 @@ export default {
         this.boardContext.closePath(); 
       } 
     }
-      setTimeout(this.move, 600);
+      setTimeout(this.move, this.timeOut);
     },
     isFoodNewHead(newHeadCell) {
       return newHeadCell.x === this.newFood.x && newHeadCell.y === this.newFood.y
+    },
+    isNewHeadInSnake(newHeadCell) {
+       if(this.snake.filter(cell => cell.x === newHeadCell.x && cell.y === newHeadCell.y).length>0) {
+        this.stopGame()
+        this.gameOver()
+    
+       }
     },
     clear({x,y}) {
       this.boardContext.clearRect(
@@ -128,30 +149,13 @@ export default {
       );
     },
     resetSnake() {
-      // this.snake = [
-      //   {
-      //     x: this.getMiddleCell(),
-      //     y: this.getMiddleCell(),
-      //   },
-      // ];
-         this.snake = [
-         { x: 2, y: 2},
-         { x: 3, y: 2},
-         { x: 4, y: 2},
-         { x: 5, y: 2},
-         { x: 6, y: 2},
-         { x: 7, y: 2},
-         { x: 8, y: 2},
-         { x: 8, y: 3},
-         { x: 7, y: 3},
-         { x: 6, y: 3},
-         { x: 5, y: 3},
-         { x: 4, y: 3},
-         { x: 3, y: 3},
-         { x: 2, y: 3},
-         
-         
-          ];
+      this.snake = [
+        {
+          x: this.getMiddleCell(),
+          y: this.getMiddleCell(),
+        },
+      ];
+    
       const randomDirectionIndex = Math.floor(
         Math.random() * 4
       );
@@ -161,7 +165,6 @@ export default {
     },
     // {x:10, y:20}
     isCellOutOfBoard({x, y}) {
-    // console.log("boardSizePx: " + typeof(this.boardSizePx)+ " x: " + x + "y: " + y)
     let isOut = false;
     if( x<0 || x >= this.boardSize || y<0 || y >= this.boardSize) {
       isOut = true;
@@ -169,9 +172,6 @@ export default {
     return isOut;
     },
   amountCellsInSnake(cell) {
-
-  // TU NAPISZEMY TEN WARUNEK INACZEJ
-
       return this.snake.filter((snakeCell) => snakeCell.x === cell.x && snakeCell.y === cell.y)
         .length;
     },
@@ -211,4 +211,6 @@ export default {
   margin: auto;
   margin-top: 2em;
 }
+
+
 </style>
