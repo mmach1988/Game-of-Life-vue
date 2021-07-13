@@ -12,10 +12,10 @@
         Speed: <input v-model="speed" type="number" />
       </div>
             <div class="input-div">
-      Tryb gry:
+      Tryb gry: {{gameMode}}
       <br />
-      <!-- 1. Rysowanie (moliwość zapisania, mozliwosc wczytywania zapisanych konfiguracji)
-      2. Symulacja (mzliwość play/ pause)
+      <!-- 1. Rysowanie (możliwość zapisania, mozliwosc wczytywania zapisanych konfiguracji)
+      2. Symulacja (możliwość play/ pause)
       3. Czyszczenie -->
       </div>
     </div>
@@ -30,6 +30,7 @@
     :isGameOver = "isGameOver" 
     :gameOver = "gameOver"
     :startGame = "startGame" 
+    :gameMode = "gameMode"
     />
     <!-- <div v-if="isGameOver" class="game-over" >
     Game Over 
@@ -53,12 +54,24 @@ export default {
   data: function () {
     return {
       score: 0,
-      cellSize: 10,
-      boardSize: 20,
+      cellSize: 5,
+      boardSize: 5,
       speed: 1,
       isPlaying: false,
       isGameOver: false,
     };
+  },
+  computed: {
+    gameMode() {
+      if(!this.isPlaying && !this.isGameOver) {
+        return 'Draw'
+      }
+      else if(this.isPlaying && !this.isGameOver) {
+        return 'Simulation'
+      }
+        return 'Game Over'  
+    },
+
   },
   watch: {
     speed: function() {
