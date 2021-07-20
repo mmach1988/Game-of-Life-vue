@@ -54,8 +54,8 @@ export default {
   data: function () {
     return {
       score: 0,
-      cellSize: 5,
-      boardSize: 5,
+      cellSize: 15,
+      boardSize: 3,
       speed: 1,
       isPlaying: false,
       isGameOver: false,

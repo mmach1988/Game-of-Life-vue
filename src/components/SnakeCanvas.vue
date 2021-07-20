@@ -8,6 +8,8 @@
     @click = "drawCell($event)"
   >
   </canvas>
+  Test potentialPopulation: {{ potentialPopulation }} <br />
+  Test population: {{ population }}
   <!-- Game mode test: {{gameMode}} -->
 <!-- potencialPopulation: {{ potentialPopulation }} -->
   </div>
@@ -69,7 +71,6 @@ export default {
     this.boardContext = this.$refs.board.getContext(
       "2d"
     );
-    this.countNeighbours({ x: 100, y: 100 } )
     this.simulation()
   },
   created() {
@@ -88,7 +89,9 @@ export default {
   },
   methods: {
     drawCell(event) {
-          this.drawRect( {x: Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left), y: Math.floor(event.clientY - this.$refs.board.getBoundingClientRect().top)}, 'black')
+      this.boardContext.beginPath();
+      this.drawRect( {x: Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left), y: Math.floor(event.clientY - this.$refs.board.getBoundingClientRect().top)}, 'black')
+      this.boardContext.closePath(); 
     },
   //   onKeyPress(event) {
   // const newDirection = constants.find(direction => direction.keyCode === event.keyCode)
@@ -97,6 +100,7 @@ export default {
   //  }
   //   },
     drawRect({ x, y }, color) {
+      // console.log('Rysujemy: ' + ' x: ' + (x - x % this.cellSize) + ' y:' + (y - y % this.cellSize))
       this.boardContext.rect(
         x - x % this.cellSize,
         y - y % this.cellSize,
@@ -105,57 +109,76 @@ export default {
       );
       this.boardContext.fillStyle = 'black';
       this.boardContext.fill();
+
+
       this.population.push({x: x - x % this.cellSize, y: y - y % this.cellSize})
-      // for(let item of this.population) {
-      //   console.log('This population x: ' + item.x + ' y: ' + item.y) 
-      // }           
+       
+    },
+    clear({x,y}) {
+      // console.log('Czyścimy: ' + ' x: ' + x + ' y:' + y)
+      this.boardContext.clearRect(
+        x,
+        y,
+        this.cellSize,
+        this.cellSize
+      );
+      // this.boardContext.fillStyle = 'white';
+      // this.boardContext.fill();
     },
     simulation() {
-      let potentialPopulation = this.potentialPopulation
-      let population = this.population
+      // let potentialPopulation = this.potentialPopulation
+      // let population = this.population
       if (this.gameMode === 'Simulation') {
-      // Trzy rodzaje populacji:
-      // staraWersjaPOPULACJA (zbiór zywych)
-      // potencjalna - to sprawdzamy
-      // nowa
-      for(let i = 0; i < potentialPopulation.length; i++) {
-        // czy komórka jest zywa - czy element z iteracji jest w tablicy populacja
-        if(population.find(cell => potentialPopulation[i].x == cell.x &&  potentialPopulation[i].y == cell.y)) {
-          console.log('x: ' + potentialPopulation[i].x + ' y: ' + potentialPopulation[i].y + ' zyje!!!!')
-        // SPRAWDZAMY LICZBĘ SĄSIADÓW - CONSOLE.LOG
+        let newPopulation = []
+        // console.log('Simulation')
+        this.population.forEach(this.clear)
+        let counter = 0
+        let przeCounter = 0 
+        let oCounter = 0
+      for(let i = 0; i < this.potentialPopulation.length; i++) {
         
-
+        let neighbours = this.countNeighbours({x: this.potentialPopulation[i].x, y: this.potentialPopulation[i].y})
+        
+        if(this.population.find(cell => cell.x == this.potentialPopulation[i].x && cell.y == this.potentialPopulation[i].y)) {
+          counter ++
+          // KOMÓRKA ZYWA
+          if(neighbours == 2 || neighbours == 3){
+            przeCounter++
+            newPopulation.push(this.potentialPopulation[i])
+            console.log('Start')
+            console.log(newPopulation)
+            console.log('End')
+          }
 
         }
-
-        // console.log(potentialPopulation[i].x + ' ' + potentialPopulation[i].y)
-        // console.log(population)
-
+        else {
+          counter ++
+          // KOMÓRKA MARTWA
+          if(neighbours == 3){
+            oCounter++
+            newPopulation.push(this.potentialPopulation[i])
+          }
+        }
       }
+      console.log("Potencjalne: " + counter)
+      console.log("Przeżyło: " + przeCounter)
+      console.log("Ozyło: " + oCounter)
+      // console.log('Nowa populacja:')
+      // console.log(newPopulation)
+              // CZYSZCZENIE
+        this.population = null        
+        this.population = newPopulation
 
+        // RYSOWANIE POPULACJI      
+        this.boardContext.beginPath();
+        this.population.forEach(this.drawRect)
+        this.boardContext.closePath(); 
+       
+        // for(let n = 0; n < this.population.length; n++) {  
+        //   this.drawRect({x: this.population[n].x, y: this.population[n].y})
+        // }
     }
 
-      
-
-
-
-      // 1. tworzymy potencjalna populacja (canvas) = wszystkie dostępne komórki  (moe computed)
-
-      // sprawdzamy, czy jest w populacji 
-      // sprawdzamy liczbę sąsiadów dla każdej komórki z canvas
-      // 4 moliwości:
-      // zywa - zywa -> 2 albo 3 sąsiadów
-      // zywa - martwa -> mniej niż 2 albo więcej niż 3
-      // martwa - martwa -> jeżeli nie ma 3 sąsiadów
-      // martwa - zywa -> jeżeli ma równo 3 sąsiadów 
-      // odświeżamy populacje (zabijamy/ ozywiamy)
-      // rysowanie populacji
-
-
-
-
-
-      
      setTimeout(this.simulation, 2000) 
     },
     countNeighbours( {x, y }) {
@@ -163,7 +186,9 @@ export default {
     let neighbour = {x: x-this.cellSize, y: y-this.cellSize}
     let population = this.population
     for(let cell of population)  {
-      if((x - this.cellSize === cell.x && y-this.cellSize === cell.y) 
+
+      if(x != cell.x || y != cell.y)  {
+        if((x - this.cellSize === cell.x && y-this.cellSize === cell.y) 
       || (x === cell.x && y-this.cellSize === cell.y)
       || (x + this.cellSize === cell.x && y - this.cellSize === cell.y)
       || (x + this.cellSize === cell.x && y === cell.y)
@@ -171,8 +196,15 @@ export default {
       || (x === cell.x && y + this.cellSize === cell.y)
       || (x - this.cellSize === cell.x && y + this.cellSize === cell.y)
       || (x - this.cellSize === cell.x && y === cell.y)  ) {
+
          neighbours++
+     
      }
+
+
+         
+        }
+
     }
 // sprawdzany {x, y}
 // populacja [{x,y}, {x1,y1}, ...]
@@ -196,14 +228,6 @@ return neighbours
     //     this.gameOver()
     //    }
     // },
-    clear({x,y}) {
-      this.boardContext.clearRect(
-        x * this.cellSize,
-        y * this.cellSize,
-        this.cellSize,
-        this.cellSize
-      );
-    },
     getMiddleCell() {
       return Math.round(
         this.boardSize / 2
