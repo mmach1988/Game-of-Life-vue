@@ -8,8 +8,6 @@
     @click = "drawCell($event)"
   >
   </canvas>
-  Test potentialPopulation: {{ potentialPopulation }} <br />
-  Test population: {{ population }}
   <!-- Game mode test: {{gameMode}} -->
 <!-- potencialPopulation: {{ potentialPopulation }} -->
   </div>
@@ -90,7 +88,10 @@ export default {
   methods: {
     drawCell(event) {
       this.boardContext.beginPath();
-      this.drawRect( {x: Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left), y: Math.floor(event.clientY - this.$refs.board.getBoundingClientRect().top)}, 'black')
+      let x = Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left)
+      let y = Math.floor(event.clientY - this.$refs.board.getBoundingClientRect().top)
+      this.drawRect( {x: x , y: y }, 'black')
+      this.population.push({x: x - x % this.cellSize, y: y - y % this.cellSize})
       this.boardContext.closePath(); 
     },
   //   onKeyPress(event) {
@@ -109,9 +110,6 @@ export default {
       );
       this.boardContext.fillStyle = 'black';
       this.boardContext.fill();
-
-
-      this.population.push({x: x - x % this.cellSize, y: y - y % this.cellSize})
        
     },
     clear({x,y}) {
@@ -179,7 +177,7 @@ export default {
         // }
     }
 
-     setTimeout(this.simulation, 2000) 
+     setTimeout(this.simulation, 500) 
     },
     countNeighbours( {x, y }) {
     let neighbours = 0
