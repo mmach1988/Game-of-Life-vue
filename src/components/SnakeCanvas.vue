@@ -86,6 +86,25 @@ export default {
     // },
   },
   methods: {
+    savePopulation(name, population) {
+      if(name){
+        if(population) {
+          this.axios.post('https://game-of-life-c6e2a-default-rtdb.firebaseio.com/saves.json',
+            {
+              name: name,
+              population: population
+            }).then((response) => {console.log(response);}, (error) => {
+              console.log(error);
+              });    
+        }
+        else {
+          console.log("Brak populacji")
+        }
+      }
+      else {
+        console.log('Brak nazwy')
+      }
+    },
     drawCell(event) {
       this.boardContext.beginPath();
       let x = Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left)
