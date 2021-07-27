@@ -196,7 +196,7 @@ export default {
         // }
     }
 
-     setTimeout(this.simulation, 500) 
+     setTimeout(this.simulation, 300) 
     },
     countNeighbours( {x, y }) {
     let neighbours = 0
@@ -296,3 +296,4 @@ return neighbours
 
 
 </style>
+

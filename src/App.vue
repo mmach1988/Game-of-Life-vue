@@ -1,6 +1,7 @@
 <template>
+
   <div id="app" style="position: relative;">
-    <h1 ><span class="snake-text">Snake game</span></h1>
+    <h1 ><span>Game of life</span></h1>
     <div class="container">
       <div class="input-div">
         Cell size (px): <input v-model="cellSize" type="number" />
@@ -20,7 +21,7 @@
       </div>
     </div>
 
-    <snake-canvas
+    <simulation-canvas
     :cellSize= "cellSize"
     :boardSize= "boardSize" 
     :speed = "speed" 
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import SnakeCanvas from "./components/SnakeCanvas";
+import SimulationCanvas from "./components/SimulationCanvas";
 
 export default {
   name: "App",
@@ -117,7 +118,7 @@ export default {
 
 }
   },
-  components: { SnakeCanvas },
+  components: { SimulationCanvas },
 };
 
 </script>
