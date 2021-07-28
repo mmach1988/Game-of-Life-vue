@@ -1,5 +1,4 @@
 <template>
-
   <div id="app" style="position: relative;">
     <h1 ><span>Game of life</span></h1>
     <div class="container">

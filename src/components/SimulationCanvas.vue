@@ -8,15 +8,15 @@
     @click = "drawCell($event)"
   >
   </canvas>
-  <!-- Game mode test: {{gameMode}} -->
-<!-- potencialPopulation: {{ potentialPopulation }} -->
+  <save-shape /> 
   </div>
 
 </template>
 
 <script>
 
-import constants from "./Constants";
+import constants from "./Constants"
+import saveShape from "./SaveShape"
 
 export default {
   props: [
@@ -31,6 +31,7 @@ export default {
     "startGame",
     "gameMode"
   ],
+  components: { saveShape },
   computed: {
     potentialPopulation() {
       let setOfXs = []
