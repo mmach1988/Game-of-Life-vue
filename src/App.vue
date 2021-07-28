@@ -55,7 +55,7 @@ export default {
     return {
       score: 0,
       cellSize: 15,
-      boardSize: 20,
+      boardSize: 35,
       speed: 1,
       isPlaying: false,
       isGameOver: false,
