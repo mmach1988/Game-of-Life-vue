@@ -36,7 +36,9 @@
         {{isGameOver ? 'Start new game' : !isPlaying ? 'Play' : 'Pause'}}
         </button>
       <div class="right-save">
-        <button @click = "saveInFirebase('save 1', population)"> Zapisz populację</button>
+        <save-shape v-if="gameMode === 'Draw'" 
+        
+        />
     </div> 
     </div>
     </div>
@@ -46,6 +48,7 @@
 </template>
 
 <script>
+import SaveShape from './components/SaveShape.vue';
 import SimulationCanvas from "./components/SimulationCanvas";
 
 export default {
@@ -115,7 +118,7 @@ export default {
 
 }
   },
-  components: { SimulationCanvas },
+  components: { SimulationCanvas, SaveShape },
 };
 
 </script>

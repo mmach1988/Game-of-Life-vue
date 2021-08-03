@@ -1,5 +1,7 @@
 <template>
-    
+  <div>
+    <button @click = "saveInFirebase('save 1', population)"> Zapisz populację</button>
+</div>   
 </template>
 
 <script>

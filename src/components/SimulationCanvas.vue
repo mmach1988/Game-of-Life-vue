@@ -8,9 +8,9 @@
     @click = "drawCell($event)"
   >
   </canvas>
-  <save-shape  
+  <!-- <save-shape  
   :population = "population"
-  /> 
+  />  -->
   Population test: {{ population }}
   </div>
 
@@ -175,9 +175,9 @@ export default {
           }
         }
       }
-      console.log("Potencjalne: " + counter)
-      console.log("Przeżyło: " + przeCounter)
-      console.log("Ozyło: " + oCounter)
+      // console.log("Potencjalne: " + counter)
+      // console.log("Przeżyło: " + przeCounter)
+      // console.log("Ozyło: " + oCounter)
       // console.log('Nowa populacja:')
       // console.log(newPopulation)
               // CZYSZCZENIE
@@ -193,7 +193,6 @@ export default {
         //   this.drawRect({x: this.population[n].x, y: this.population[n].y})
         // }
     }
-
      setTimeout(this.simulation, 300) 
     },
     countNeighbours( {x, y }) {
