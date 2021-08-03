@@ -11,7 +11,6 @@
   <!-- <save-shape  
   :population = "population"
   />  -->
-  Population test: {{ population }}
   </div>
 
 </template>
@@ -160,9 +159,9 @@ export default {
           if(neighbours == 2 || neighbours == 3){
             przeCounter++
             newPopulation.push(this.potentialPopulation[i])
-            console.log('Start')
-            console.log(newPopulation)
-            console.log('End')
+            // console.log('Start')
+            // console.log(newPopulation)
+            // console.log('End')
           }
 
         }
@@ -193,6 +192,7 @@ export default {
         //   this.drawRect({x: this.population[n].x, y: this.population[n].y})
         // }
     }
+     this.$emit('update', this.population)
      setTimeout(this.simulation, 300) 
     },
     countNeighbours( {x, y }) {

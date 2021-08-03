@@ -5,6 +5,7 @@
     <div> </div>
     <div>
     <simulation-canvas
+    @update="updatePopulation"
     :cellSize= "cellSize"
     :boardSize= "boardSize" 
     :speed = "speed" 
@@ -39,6 +40,7 @@
         <save-shape v-if="gameMode === 'Draw'" 
         
         />
+          Population App.vue test: {{ population }}
     </div> 
     </div>
     </div>
@@ -60,6 +62,7 @@ export default {
       speed: 1,
       isPlaying: false,
       isGameOver: false,
+      population: [],
     };
   },
   computed: {
@@ -94,6 +97,9 @@ export default {
     },
   },
   methods: {
+    updatePopulation(value) {
+      this.population = value
+    },
     startGame() {
       this.isPlaying = true
     },
