@@ -1,25 +1,9 @@
 <template>
   <div id="app" style="position: relative;">
     <h1 ><span>Game of life</span></h1>
-    <div class="container">
-      <div class="input-div">
-        Cell size (px): <input v-model="cellSize" type="number" />
-      </div>
-      <div class="input-div">
-        Board size (cells): <input v-model="boardSize" type="number" />
-      </div>
-      <div class="input-div">
-        Speed: <input v-model="speed" type="number" />
-      </div>
-            <div class="input-div">
-      Tryb gry: {{gameMode}}
-      <br />
-      <!-- 1. Rysowanie (możliwość zapisania, mozliwosc wczytywania zapisanych konfiguracji)
-      2. Symulacja (możliwość play/ pause)
-      3. Czyszczenie -->
-      </div>
-    </div>
-
+  <div class="container">
+    <div> </div>
+    <div>
     <simulation-canvas
     :cellSize= "cellSize"
     :boardSize= "boardSize" 
@@ -32,16 +16,31 @@
     :startGame = "startGame" 
     :gameMode = "gameMode"
     />
-    <!-- <div v-if="isGameOver" class="game-over" >
-    Game Over 
-    </div> -->
-    <div class="margin-top">Score: {{ score }}</div>
-    <div class="margin-top">
-      <button @click="isGameOver ? startNewGame() : !isPlaying ? startGame() : stopGame()">
-      {{isGameOver ? 'Start new game' : !isPlaying ? 'Play' : 'Pause'}}
-  
-      </button>
-  </div>
+    </div>
+    <div>
+      <div class="input-div">
+        Cell size (px): <input v-model="cellSize" type="number" />
+      </div>
+      <div class="input-div">
+        Board size (cells): <input v-model="boardSize" type="number" />
+      </div>
+      <div class="input-div">
+        Speed: <input v-model="speed" type="number" />
+      </div>
+      <div class="input-div">
+      Tryb gry: {{gameMode}}
+      <br />
+      </div>
+      <div class="margin-top">
+        <button @click="isGameOver ? startNewGame() : !isPlaying ? startGame() : stopGame()">
+        {{isGameOver ? 'Start new game' : !isPlaying ? 'Play' : 'Pause'}}
+        </button>
+      <div class="right-save">
+        <button @click = "saveInFirebase('save 1', population)"> Zapisz populację</button>
+    </div> 
+    </div>
+    </div>
+    </div>
 
   </div>
 </template>
@@ -53,9 +52,8 @@ export default {
   name: "App",
   data: function () {
     return {
-      score: 0,
       cellSize: 15,
-      boardSize: 35,
+      boardSize: 42,
       speed: 1,
       isPlaying: false,
       isGameOver: false,
@@ -148,10 +146,9 @@ input {
   font-size: 8em;
 }
 .container {
-  width: 50em;
   margin: auto;
   display: grid;
-  grid-template-columns: 25% 25% 25% 25% ;
+  grid-template-columns: 33.33% 33.33% 33.33% ;
   justify-items: center;
   grid-template-rows: 2em;
 }
@@ -163,5 +160,8 @@ input {
   line-height: 2em;
   text-align: center;
   width: 90%;
+}
+.right-save {
+  margin-top: 1em;
 }
 </style>

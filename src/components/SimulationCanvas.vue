@@ -11,7 +11,7 @@
   <save-shape  
   :population = "population"
   /> 
-
+  Population test: {{ population }}
   </div>
 
 </template>
@@ -93,12 +93,23 @@ export default {
 
   methods: {
     drawCell(event) {
+      console.log(event)
       this.boardContext.beginPath();
       let x = Math.floor(event.clientX - this.$refs.board.getBoundingClientRect().left)
+      x = x - x % this.cellSize
       let y = Math.floor(event.clientY - this.$refs.board.getBoundingClientRect().top)
+      y = y - y % this.cellSize
+      if(this.population.find(cell => cell.x == x && cell.y == y)) {
+        console.log('Juz narysowany')
+        this.population = this.population.filter(cell => cell.x != x && cell.y !=y )
+        this.clear({x: x , y: y })
+        this.boardContext.closePath(); 
+      }
+      else {
       this.drawRect( {x: x , y: y }, 'black')
       this.population.push({x: x - x % this.cellSize, y: y - y % this.cellSize})
       this.boardContext.closePath(); 
+      }
     },
   //   onKeyPress(event) {
   // const newDirection = constants.find(direction => direction.keyCode === event.keyCode)
@@ -278,7 +289,7 @@ return neighbours
 .canvas {
   border: red 1px solid;
   margin: auto;
-  margin-top: 2em;
+
 }
 
 
