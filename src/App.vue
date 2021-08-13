@@ -1,5 +1,9 @@
 <template>
   <div id="app" style="position: relative;">
+    <save-shape v-if="ifSaveShape && gameMode === 'Draw'" :population='population' />
+    <load-shapes
+      @closeLoadModal="closeLoadModal"
+      v-if="ifLoadShapes && gameMode === 'Draw'" />
     <h1 ><span>Game of life</span></h1>
   <div class="container">
     <div> </div>
@@ -16,7 +20,7 @@
     :gameOver = "gameOver"
     :startGame = "startGame" 
     :gameMode = "gameMode"
-    />
+    /> 
     </div>
     <div>
       <div class="input-div">
@@ -37,10 +41,8 @@
         {{isGameOver ? 'Start new game' : !isPlaying ? 'Play' : 'Pause'}}
         </button>
       <div class="right-save">
-        <save-shape v-if="gameMode === 'Draw'" 
-        
-        />
-          Population App.vue test: {{ population }}
+        <button @click="showSaveModal" v-if="gameMode === 'Draw'"> Save shape </button><br />
+        <button @click="showLoadModal" v-if="gameMode === 'Draw'"> Load shapes </button>
     </div> 
     </div>
     </div>
@@ -52,6 +54,7 @@
 <script>
 import SaveShape from './components/SaveShape.vue';
 import SimulationCanvas from "./components/SimulationCanvas";
+import LoadShapes from './components/LoadShapes.vue';
 
 export default {
   name: "App",
@@ -62,7 +65,10 @@ export default {
       speed: 1,
       isPlaying: false,
       isGameOver: false,
+      ifSaveShape: false,
+      ifLoadShapes: false,
       population: [],
+      
     };
   },
   computed: {
@@ -97,6 +103,15 @@ export default {
     },
   },
   methods: {
+    closeLoadModal() {
+      this.ifLoadShapes = !this.ifLoadShapes
+    },
+    showSaveModal() {
+      this.ifSaveShape = !this.ifSaveShape
+    },
+    showLoadModal() {
+      this.ifLoadShapes = !this.ifLoadShapes
+      },
     updatePopulation(value) {
       this.population = value
     },
@@ -124,7 +139,7 @@ export default {
 
 }
   },
-  components: { SimulationCanvas, SaveShape },
+  components: { SimulationCanvas, SaveShape, LoadShapes },
 };
 
 </script>

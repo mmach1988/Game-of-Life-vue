@@ -8,6 +8,7 @@
     @click = "drawCell($event)"
   >
   </canvas>
+ 
   <!-- <save-shape  
   :population = "population"
   />  -->
@@ -19,6 +20,7 @@
 
 import constants from "./Constants"
 import saveShape from "./SaveShape"
+import loadShapes from "./LoadShapes"
 
 
 export default {
