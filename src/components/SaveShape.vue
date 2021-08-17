@@ -1,13 +1,11 @@
 
 <template>
   <div class="modal">
-    <button class="cancel"> Anuluj </button>
+    <button @click="closeModal" class="cancel"> Anuluj </button>
     <form class="save-form">
       <input style="width: 9em" type="text" placeholder="Wpisz nazwę" v-model="saveName" /><br />
       <button @click.prevent = "saveInFirebase(saveName, population)"> Zapisz populację</button>
-    </form>  
-    <button @click = "loadSaves"> Pobierz</button>
-   <!-- Test load: {{ saves }} -->
+    </form> 
 
 </div>   
 </template>
@@ -21,7 +19,6 @@ export default {
 data: function() {
         return {
         saveName: '',
-        saves: [],
         };
     },
 props: [
@@ -46,16 +43,12 @@ methods: {
       else {
         console.log('Brak nazwy')
       }
-    }, 
-    loadSaves() {
-          this.axios.get('https://game-of-life-c6e2a-default-rtdb.firebaseio.com/saves.json')
-          .then((response) => {
-            this.saves = response.data
-            console.log(response.data);
-          });    
-    }, 
+    },  
    addShape() {
       console.log('addShape') 
+   },
+   closeModal() {
+     this.$emit('closeSaveModal')
    }
 }
 }

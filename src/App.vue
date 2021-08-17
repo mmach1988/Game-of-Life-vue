@@ -1,7 +1,10 @@
 <template>
   <div id="app" style="position: relative;">
-    <save-shape v-if="ifSaveShape && gameMode === 'Draw'" :population='population' />
+    <save-shape @closeSaveModal="closeSaveModal" v-if="ifSaveShape && gameMode === 'Draw'" :population='population' />
     <load-shapes
+      :cellSize="cellSize"
+      :boardSize="boardSize"
+      :speed="speed"
       @closeLoadModal="closeLoadModal"
       v-if="ifLoadShapes && gameMode === 'Draw'" />
     <h1 ><span>Game of life</span></h1>
@@ -103,6 +106,9 @@ export default {
     },
   },
   methods: {
+    closeSaveModal() {
+      this.ifSaveShape = !this.ifSaveShape
+    },
     closeLoadModal() {
       this.ifLoadShapes = !this.ifLoadShapes
     },
