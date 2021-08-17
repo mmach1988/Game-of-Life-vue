@@ -38,9 +38,18 @@ methods: {
     loadSaves() {
           this.axios.get('https://game-of-life-c6e2a-default-rtdb.firebaseio.com/saves.json')
           .then((response) => {
-            console.log(Object.keys(response.data))
-            this.saves = Object.keys(response.data);
-          });    
+           return response.data
+          }).then((data) => {
+            const results = []
+            for (const id in data) {
+                results.push( {
+                    id: id,
+                    name: data[id].name,
+                    population: data[id].population,
+                })
+            }  
+            this.saves = results
+          })
     },
 }
 }
