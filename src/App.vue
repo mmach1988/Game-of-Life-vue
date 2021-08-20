@@ -40,18 +40,35 @@
       <br />
       </div>
       <div class="margin-top">
-        <button @click="isGameOver ? startNewGame() : !isPlaying ? startGame() : stopGame()">
-        {{isGameOver ? 'Start new game' : !isPlaying ? 'Play' : 'Pause'}}
-        </button>
-      <div class="right-save">
-        <button @click="showSaveModal" v-if="gameMode === 'Draw'"> Save shape </button><br />
-        <b-button @click="showLoadModal" v-if="gameMode === 'Draw'"> Load shapes </b-button>
+        <b-button> Button test </b-button>
+         <b-card
+    title="Card Title"
+    img-src="https://picsum.photos/600/300/?image=25"
+    img-alt="Image"
+    img-top
+    tag="article"
+    style="max-width: 20rem;"
+    class="mb-2"
+  >
+    <b-card-text>
+      Some quick example text to build on the card title and make up the bulk of the card's content.
+    </b-card-text>
+
+    <b-button href="#" variant="primary">Go somewhere</b-button>
+  </b-card>
+  <div>
+  <b-button v-b-modal.modal-1>Modal test</b-button>
+
+  <b-modal id="modal-1" title="BootstrapVue">
+    <p class="my-4">Hello from modal!</p>
+  </b-modal>
+</div>
     </div> 
     </div>
     </div>
     </div>
 
-  </div>
+
 </template>
 
 <script>
