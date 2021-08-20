@@ -45,7 +45,7 @@
         </button>
       <div class="right-save">
         <button @click="showSaveModal" v-if="gameMode === 'Draw'"> Save shape </button><br />
-        <button @click="showLoadModal" v-if="gameMode === 'Draw'"> Load shapes </button>
+        <b-button @click="showLoadModal" v-if="gameMode === 'Draw'"> Load shapes </b-button>
     </div> 
     </div>
     </div>
