@@ -1,18 +1,21 @@
 <template>
- <div class="modal">
-    <button @click="loadSaves" class="load-saves" > Pobierz kształty </button>
-    Test load: {{ saves }}
-    <button @click="closeModal" class="cancel"> Anuluj </button>
-    <div v-for="n in 5" :key="n" class="shapes-container"> 
-        MIEJSCE NA WCZYTANE KSZTAŁTY: {{ n }}
-        <!-- <shape-component
+ <div>
+    <b-button v-b-modal.modal-1>Load shapes</b-button>
+    <b-modal id="modal-1" size="lg" title="BootstrapVue">
+      <p class="my-4">Saves to load</p>
+      <div v-for="(save, index) in saves" :key="index" class="shapes-container"> 
+        <shape-component
         :cellSize="cellSize"
         :boardSize="boardSize"
         :speed="speed"
+        :loadedPopulation="save.population" 
+        :name="save.name"
         v-if="saves"
-        /> -->
-      
+        /> 
+
     </div>
+    </b-modal>
+
  </div>
 </template>
 
@@ -31,10 +34,10 @@ props: ["cellSize", "boardSize", "speed"],
 components: {
     shapeComponent,
 },
+mounted() {
+   this.loadSaves();
+},
 methods: {
-    closeModal() {
-        this.$emit('closeLoadModal')
-    },
     loadSaves() {
           this.axios.get('https://game-of-life-c6e2a-default-rtdb.firebaseio.com/saves.json')
           .then((response) => {
@@ -70,6 +73,10 @@ methods: {
         width: 100%;
         border: 1px blue solid;
     }
+    #modal-1 {
+        max-width: auto !important;
+
+  }
 
 </style>
 

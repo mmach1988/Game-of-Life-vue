@@ -1,6 +1,6 @@
 <template>
     <div>
-        Shape Component
+      <h2> {{ name }} </h2>
       <canvas
       ref="board"
       :width="boardSizePx"
@@ -22,7 +22,8 @@
       "cellSize",
       "boardSize",
       "speed",
-      "loadedPopulation"
+      "loadedPopulation",
+      "name"
     ],
     computed: {
       boardSizePx() {

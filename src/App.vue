@@ -1,12 +1,5 @@
 <template>
   <div id="app" style="position: relative;">
-    <save-shape @closeSaveModal="closeSaveModal" v-if="ifSaveShape && gameMode === 'Draw'" :population='population' />
-    <load-shapes
-      :cellSize="cellSize"
-      :boardSize="boardSize"
-      :speed="speed"
-      @closeLoadModal="closeLoadModal"
-      v-if="ifLoadShapes && gameMode === 'Draw'" />
     <h1 ><span>Game of life</span></h1>
   <div class="container">
     <div> </div>
@@ -40,28 +33,14 @@
       <br />
       </div>
       <div class="margin-top">
-        <b-button> Button test </b-button>
-         <b-card
-    title="Card Title"
-    img-src="https://picsum.photos/600/300/?image=25"
-    img-alt="Image"
-    img-top
-    tag="article"
-    style="max-width: 20rem;"
-    class="mb-2"
-  >
-    <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </b-card-text>
-
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
+      <b-button class="mb-5" @click="startGame"> Start/Pause</b-button>
   <div>
-  <b-button v-b-modal.modal-1>Modal test</b-button>
-
-  <b-modal id="modal-1" title="BootstrapVue">
-    <p class="my-4">Hello from modal!</p>
-  </b-modal>
+     <save-shape class="mb-5" v-if="gameMode === 'Draw'" :population='population' />
+    <load-shapes
+      :cellSize="cellSize"
+      :boardSize="boardSize"
+      :speed="speed"
+      v-if="gameMode === 'Draw'" />
 </div>
     </div> 
     </div>
@@ -85,12 +64,11 @@ export default {
       speed: 1,
       isPlaying: false,
       isGameOver: false,
-      ifSaveShape: false,
-      ifLoadShapes: false,
       population: [],
       
     };
   },
+  components: { SimulationCanvas, SaveShape, LoadShapes },
   computed: {
     gameMode() {
       if(!this.isPlaying && !this.isGameOver) {
@@ -123,18 +101,6 @@ export default {
     },
   },
   methods: {
-    closeSaveModal() {
-      this.ifSaveShape = !this.ifSaveShape
-    },
-    closeLoadModal() {
-      this.ifLoadShapes = !this.ifLoadShapes
-    },
-    showSaveModal() {
-      this.ifSaveShape = !this.ifSaveShape
-    },
-    showLoadModal() {
-      this.ifLoadShapes = !this.ifLoadShapes
-      },
     updatePopulation(value) {
       this.population = value
     },
@@ -162,7 +128,6 @@ export default {
 
 }
   },
-  components: { SimulationCanvas, SaveShape, LoadShapes },
 };
 
 </script>

@@ -1,13 +1,19 @@
 
 <template>
-  <div class="modal">
-    <button @click="closeModal" class="cancel"> Anuluj </button>
-    <form class="save-form">
-      <input style="width: 9em" type="text" placeholder="Wpisz nazwę" v-model="saveName" /><br />
-      <button @click.prevent = "saveInFirebase(saveName, population)"> Zapisz populację</button>
+<div>
+  <b-button v-b-modal.modal-save>Save Shape</b-button>
+  <b-modal id="modal-save" size="lg" title="BootstrapVue">
+    <h2> Save shape</h2>
+    <form>
+      <input class="mb-2" style="width: 9em" type="text" placeholder="Wpisz nazwę" v-model="saveName" /><br />
+      <b-button class="btn btn-success" @click.prevent = "saveInFirebase(saveName, population)"> Zapisz populację</b-button>
     </form> 
+  </b-modal>
+
+  <div >
 
 </div>   
+</div>
 </template>
 
 <script>
@@ -60,18 +66,6 @@ methods: {
         right: 10%;
         top: 5%;
   }
-  .modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    border: 1px solid red;
-   
-    background: rgb(204, 204, 204); /* Fallback for older browsers without RGBA-support */
-    background: rgba(204, 204, 204, 0.8);
 
-  }
-  .save-form {
-    margin-top: 20em;
-  }
 </style>
 
