@@ -40,7 +40,8 @@ export default {
     "isGameOver",
     "gameOver",
     "startGame",
-    "gameMode"
+    "gameMode",
+    "loadedPopulation"
   ],
   computed: {
     potentialPopulation() {
@@ -211,8 +212,15 @@ export default {
         //   this.drawRect({x: this.population[n].x, y: this.population[n].y})
         // }
     }
+    if(this.loadedPopulation){
+      this.population = this.loadedPopulation
+      this.loadedPopulation = null
+      this.boardContext.beginPath();
+      this.population.forEach(this.drawRect)
+      this.boardContext.closePath(); 
+    }
      this.$emit('update', this.population)
-     setTimeout(this.simulation, 300) 
+     setTimeout(this.simulation, 1000) 
     },
     countNeighbours( {x, y }) {
     let neighbours = 0
