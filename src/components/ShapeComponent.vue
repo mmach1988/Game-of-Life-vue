@@ -1,13 +1,16 @@
 <template>
     <div>
-      <h2> {{ name }} </h2>
-      <canvas
-      ref="board"
-      :width="boardSizePx"
-      :height="boardSizePx"
-      class="canvas"
-    >
-    </canvas>
+      <h2> {{ name }}</h2>
+      <div>
+        <canvas 
+        @click="loadSave" 
+        ref="board"
+        :width="boardSizePx"
+        :height="boardSizePx"
+        class="canvas"
+      >
+      </canvas>
+    </div>
     </div>
   </template>
   
@@ -26,9 +29,12 @@
       "name"
     ],
     computed: {
+      smallerCell() {
+        return this.cellSize / 2 
+      },
       boardSizePx() {
         return (
-          this.boardSize * this.cellSize
+          this.boardSize * this.smallerCell
         );
       },
       timeOut() {
@@ -39,8 +45,7 @@
     },
     data: function() {
       return {
-        boardContext: null,
-        population: []
+        boardContext: null
       };
     },
     mounted() {
@@ -53,6 +58,11 @@
      window.removeEventListener("keydown", this.onKeyPress);
     },
     methods: {
+      loadSave() {
+        this.$emit('update', this.loadedPopulation)
+        console.log("Loading save: " + this.name)
+        console.log("Population: " + this.loadedPopulation)
+      },
     //   drawCell(event) {
     //     console.log(event)
     //     this.boardContext.beginPath();
@@ -73,11 +83,13 @@
     //     }
     //   },
       drawRect({ x, y }, color) {
+        x = x / 2
+        y = y / 2
         this.boardContext.rect(
-          x - x % this.cellSize,
-          y - y % this.cellSize,
-          this.cellSize,
-          this.cellSize
+          x - x % this.smallerCell,
+          y - y % this.smallerCell,
+          this.smallerCell,
+          this.smallerCell
         );
         this.boardContext.fillStyle = 'black';
         this.boardContext.fill();   
@@ -88,10 +100,13 @@
   
   <style scoped>
   .canvas {
-    border: red 1px solid;
+    border: black 1px solid;
     margin: auto;
-  
+   
   }
+  .canvas:hover {
+    border: green 2px solid;
+}
   
   
   </style>

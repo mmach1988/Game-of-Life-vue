@@ -1,7 +1,9 @@
 <template>
   <div id="app" style="position: relative;">
+    <div class="container">
+      <div>
     <h1 ><span>Game of life</span></h1>
-  <div class="container">
+    <div style="width: 100%">Test wyświetl populacje: {{ population }}</div>
     <div> </div>
     <div>
     <simulation-canvas
@@ -18,7 +20,8 @@
     :gameMode = "gameMode"
     /> 
     </div>
-    <div>
+  </div>
+    <div class="stats">
       <div class="input-div">
         Cell size (px): <input v-model="cellSize" type="number" />
       </div>
@@ -33,20 +36,21 @@
       <br />
       </div>
       <div class="margin-top">
-      <b-button class="mb-5" @click="startGame"> Start/Pause</b-button>
-  <div>
-     <save-shape class="mb-5" v-if="gameMode === 'Draw'" :population='population' />
-    <load-shapes
-      :cellSize="cellSize"
-      :boardSize="boardSize"
-      :speed="speed"
-      v-if="gameMode === 'Draw'" />
-</div>
+      <b-button class="mb-5" @click="isPlaying ? stopGame() : startGame()"> {{ isPlaying ? "Pause" : "Play" }}</b-button>
+        <div>
+          <save-shape class="mb-5" v-if="gameMode === 'Draw'" :population='population' />
+          <load-shapes
+            @update="updatePopulation"
+            :cellSize="cellSize"
+            :boardSize="boardSize"
+            :speed="speed"
+            v-if="gameMode === 'Draw'" />
+      </div>
     </div> 
     </div>
-    </div>
-    </div>
 
+    </div>
+    </div>
 
 </template>
 
@@ -65,6 +69,7 @@ export default {
       isPlaying: false,
       isGameOver: false,
       population: [],
+      msg: 'nic',
       
     };
   },
@@ -102,6 +107,7 @@ export default {
   },
   methods: {
     updatePopulation(value) {
+      this.msg = value
       this.population = value
     },
     startGame() {
@@ -160,12 +166,15 @@ input {
 .container {
   margin: auto;
   display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33% ;
+  grid-template-columns: 60% 40% ;
   justify-items: center;
   grid-template-rows: 2em;
 }
 .margin-top {
   margin: 2em 0 0 0;
+}
+.stats {
+  width: 22vw;
 }
 .input-div {
   background-color: rgb(177, 176, 176);

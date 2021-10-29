@@ -1,5 +1,12 @@
 <template>
   <div>
+   <b-button 
+   v-if="!isPlaying"
+   @click="loadSave()"
+   > 
+   Load tymczasowy 
+  </b-button>
+  {{ population }}
     <canvas
     ref="board"
     :width="boardSizePx"
@@ -89,8 +96,20 @@ export default {
     //   this.resetPopulation()
     // },
   },
-
   methods: {
+    loadSave() {
+      let populationToLoad =[  { "x": 345, "y": 90 }, { "x": 345, "y": 105 }, { "x": 345, "y": 120 } ]
+      this.population.forEach(this.clear)
+      this.population = populationToLoad
+      this.boardContext.beginPath();
+      this.population.forEach(this.drawRect)
+      this.boardContext.closePath(); 
+
+     // 1. czyścimy aktualną populację z ekranu
+      // 2. przypisujemy nową populację do zmiennej
+      // 3. rysujemy nową populację
+      
+    },
     drawCell(event) {
       console.log(event)
       this.boardContext.beginPath();
