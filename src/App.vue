@@ -3,11 +3,12 @@
     <div class="container">
       <div>
     <h1 ><span>Game of life</span></h1>
-    <div style="width: 100%">Test wyświetl populacje: {{ population }}</div>
+    <div style="width: 100%">Test wyświetl populacje: {{ loadedPopulation }}</div>
     <div> </div>
     <div>
     <simulation-canvas
     @update="updatePopulation"
+    :loadedPopulation = "loadedPopulation"
     :cellSize= "cellSize"
     :boardSize= "boardSize" 
     :speed = "speed" 
@@ -40,7 +41,7 @@
         <div>
           <save-shape class="mb-5" v-if="gameMode === 'Draw'" :population='population' />
           <load-shapes
-            @update="updatePopulation"
+            @update="loadPopulation"
             :cellSize="cellSize"
             :boardSize="boardSize"
             :speed="speed"
@@ -68,7 +69,8 @@ export default {
       speed: 1,
       isPlaying: false,
       isGameOver: false,
-      population: [],
+      population: [{ "x": 135, "y": 60 }, { "x": 180, "y": 165 }, { "x": 330, "y": 240 }, { "x": 480, "y": 435 }, { "x": 330, "y": 405 }, { "x": 180, "y": 330 }],
+      loadedPopulation: [],
       msg: 'nic',
       
     };
@@ -109,6 +111,11 @@ export default {
     updatePopulation(value) {
       this.msg = value
       this.population = value
+      this.loadedPopulation = null
+    },
+    loadPopulation(value) {
+      this.msg = value
+      this.loadedPopulation = value
     },
     startGame() {
       this.isPlaying = true
