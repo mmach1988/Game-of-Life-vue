@@ -3,7 +3,7 @@
     <div class="container">
       <div>
     <h1 ><span>Game of life</span></h1>
-    <div style="width: 100%">Test wyświetl populacje: {{ loadedPopulation }}</div>
+    <!-- <div style="width: 100%">Test wyświetl populacje: {{ loadedPopulation }}</div> -->
     <div> </div>
     <div>
     <simulation-canvas

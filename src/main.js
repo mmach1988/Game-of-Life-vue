@@ -8,12 +8,29 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
-    count: 0
+    count: 0,
+    vuexPopulation: []
   },
   mutations: {
-    increment (state) {
-      state.count++
+    addToPopulation (state, payload) {
+      state.vuexPopulation.push({x: payload.x, y: payload.y})
+    },
+    resetPopulation (state) {
+      state.vuexPopulation = null
+    },
+    assignNewPopulation(state, payload) {
+      state.vuexPopulation = payload
+    },
+    filterPopulation(state, payload) {
+      // this.population = this.population.filter(cell => cell.x != x && cell.y !=y )
+      console.log('x test: ')
+      console.log(payload.x)
+      console.log('y test: ')
+      console.log(payload.y)
+      state.vuexPopulation = state.vuexPopulation.filter(cell => cell.x != payload.x || cell.y !=payload.y)
+      
     }
+    // dopisać wszyskie metody potrzebne do edycji i symulacji
   }
 })
 
